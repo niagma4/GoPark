@@ -10,8 +10,9 @@ body {
     color: #64748b;
 }
 
-/* .contenedor{
-    max-width: 0px;
-    margin: 0px;
+.contenedor{
+    width: 9em;
+    margin: 0 auto;
     padding-inline: 0px;
-} */
+    border: 2px solid #93000A;
+}
