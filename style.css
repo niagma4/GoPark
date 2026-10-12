@@ -12,6 +12,7 @@
     --color-texto: #475569;
     --color-primario: #1d4ed8;
     --color-primario-hover: #1e3a8a;
+    --color-negro-hover: #454c5c;
     --color-texto-footer: #94a3b8;
     --color-error: #93000a;
     --color-error-icono: #ba1a1a;
@@ -33,7 +34,7 @@
 }
 
 body {
-    font-family: "Plus Jakarta Sans";
+    font-family: "Plus Jakarta Sans", sans-serif;
     background-color: var(--color-fondo);
     color: var(--color-texto);
 }
@@ -47,6 +48,8 @@ body {
 .site-header {
     display: flex;
     justify-content: space-between;
+    margin-top: 16px;
+    margin-bottom: 16px;
     align-items: center;
     gap: var(--espacio-3);
     /* background: ; */
@@ -55,6 +58,7 @@ body {
 
 nav {
     display: flex;
+    align-items: center;
     gap: var(--espacio-5);
 }
 
@@ -64,13 +68,16 @@ nav {
 
 .header-titulo-refs{
     font-size: 15px;
+    text-decoration: none;
     color: var(--color-texto);
     line-height: 1.2;
 }
 
 .acciones {
     display: flex;
+    align-items: center;
     gap: var(--espacio-3);
+
 }
 
 .acciones-titulo-refs-2{
@@ -78,21 +85,21 @@ nav {
     color: var(--color-titulo);
     font-weight: 600;
     line-height: 1.2;
+    text-decoration: none;
 }
 
 .btn {
-    font-family: "Plus Jakarta Sans";
+    font: inherit;
     font-weight: 600;
     text-decoration: none;
     transition: background-color 0.2s;
     display: inline-flex;
     align-items: center;
     padding: 12px 20px;
+    cursor: pointer;
     border-radius: 12px;
-}
-
-.btn:hover {
-    background-color: var(--color-primario-hover);
+    border: 0px;
+    gap: var(--espacio-2);
 }
 
 .btn:focus-visible {
@@ -109,6 +116,11 @@ nav {
     background-color: var(--color-primario-hover);
 }
 
+.btn--negro {
+    background-color: var(--color-titulo);
+    color: var(--color-superficie);
+}
+
 .hero-contenido-titulo {
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     color: var(--color-titulo);
@@ -122,23 +134,8 @@ nav {
     line-height: 1.6;
 }
 
-.btn--negro {
-    background-color: var(--color-titulo);
-    color: var(--color-superficie);
-}
-
-.hero-contenido-botones-1 {
-    font-size: 16px;
-    color: var(--color-superficie);
-    line-height: 1.5;
-    font-weight: 700;
-}
-
-.hero-contenido-botones-2 {
-    font-size: 16px;
-    color: var(--color-superficie);
-    line-height: 1.5;
-    font-weight: 700;
+.btn--negro:hover {
+    background-color: var(--color-negro-hover);
 }
 
 .comparacion-header-titulo {
