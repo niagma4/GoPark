@@ -1,0 +1,10 @@
+# Registros de Decisiones Arquitectónicas (ADR)
+
+- [ADR 0001: Arquitectura de monolito modular](0001-monolito-modular.md)
+- [ADR 0002: Estilo de API REST](0002-api-rest.md)
+- [ADR 0003: Persistencia en PostgreSQL](0003-postgresql.md)
+- [ADR 0004: Bloqueo pesimista para el control de aforo](0004-bloqueo-pesimista-aforo.md)
+- [ADR 0005: JWT en cookie HttpOnly](0005-jwt-cookie-httponly.md)
+- [ADR 0006: Patrón Strategy para el motor de tarifas](0006-strategy-tarifas.md)
+- [ADR 0007: Prisma con adaptador `pg` (cliente sin motor Rust)](0007-prisma-adaptador-pg.md)
+- [ADR 0008: El frontend reenvía `/api` a la API (cookie de primera parte)](0008-proxy-api-cookie-primera-parte.md)

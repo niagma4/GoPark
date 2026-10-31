@@ -1,0 +1,42 @@
+# Entorno local completo: PostgreSQL + API + Web
+#   docker compose up --build
+# Web: http://localhost:3000 · API: http://localhost:4000 · Swagger: http://localhost:4000/docs
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gopark
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d gopark"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./apps/api
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/gopark
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-cambiar-en-produccion}
+      JWT_EXPIRES_IN: 8h
+      PORT: 4000
+      WEB_ORIGIN: http://localhost:3000
+      COOKIE_SECURE: "false"
+    ports: ["4000:4000"]
+    depends_on:
+      db: { condition: service_healthy }
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        API_URL: http://api:4000
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-cambiar-en-produccion}
+    ports: ["3000:3000"]
+    depends_on: [api]
+
+volumes:
+  pgdata:
