@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph PC["«dispositivo» Puesto de caja / PC del administrador"]
+    br["«artefacto»<br/>Navegador web<br/>(Chrome/Edge) + cámara web"]
+  end
+  subgraph GH["«entorno» GitHub"]
+    repo["«artefacto»<br/>Repositorio niagma4/GoPark"]
+    ci["«ejecución»<br/>GitHub Actions<br/>lint · tsc · tests · build"]
+  end
+  subgraph VE["«nodo» Vercel (CDN / Edge)"]
+    fe["«artefacto»<br/>Frontend Next.js<br/>(build de producción)"]
+  end
+  subgraph RE["«nodo» Render — Web Service"]
+    subgraph DK["«contenedor Docker» node:20-alpine"]
+      be["«artefacto»<br/>API REST NestJS<br/>+ Prisma Client"]
+    end
+  end
+  subgraph SU["«nodo» Supabase"]
+    pg[("«base de datos»<br/>PostgreSQL gestionado<br/>+ backups diarios")]
+  end
+  br -- "HTTPS :443" --> fe
+  br -- "HTTPS :443 (REST + SSE)" --> be
+  be -- "TCP :5432 (SSL)" --> pg
+  repo -- "push / pull request" --> ci
+  ci -- "deploy (rama main)" --> fe
+  ci -- "deploy hook (rama main)" --> be
+  classDef n fill:#DCE9F5,stroke:#2E75B6,color:#1F2D3D
+  class br,repo,ci,fe,be,pg n

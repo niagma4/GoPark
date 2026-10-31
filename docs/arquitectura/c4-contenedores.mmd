@@ -1,0 +1,19 @@
+flowchart LR
+  admin["<b>Administrador</b><br/><i>[Persona]</i>"]
+  oper["<b>Operador / Cajero</b><br/><i>[Persona]</i>"]
+  subgraph GP["GoPark  [Sistema de software]"]
+    direction LR
+    web["<b>Aplicación Web</b><br/><i>[Contenedor: Next.js + React,<br/>Tailwind CSS, shadcn/ui]</i><br/>POS de caja, lector QR (html5-qrcode),<br/>dashboard con gráficos (Recharts)."]
+    api["<b>API REST</b><br/><i>[Contenedor: Node.js + NestJS]</i><br/>Módulos: Auth/RBAC, Turnos de caja,<br/>Sesiones de parqueo, Tarifas (Strategy),<br/>Aforo, Métricas. Prisma ORM."]
+    db[("<b>Base de datos</b><br/><i>[Contenedor: PostgreSQL]</i><br/>Usuarios, turnos, sesiones,<br/>tipos de vehículo, tarifas, pagos.")]
+  end
+  admin -- "Usa [HTTPS]" --> web
+  oper -- "Usa [HTTPS]" --> web
+  web -- "Llamadas JSON/REST<br/>JWT en cookie HttpOnly [HTTPS]" --> api
+  api -- "Eventos de aforo<br/>[SSE]" --> web
+  api -- "Lee/escribe vía Prisma<br/>transacciones ACID, SELECT FOR UPDATE [SQL/TCP]" --> db
+  classDef person fill:#08427B,color:#ffffff,stroke:#052E56
+  classDef cont fill:#438DD5,color:#ffffff,stroke:#2E6295
+  class admin,oper person
+  class web,api,db cont
+  style GP fill:#F4F8FC,stroke:#2E75B6,stroke-dasharray:6 4,color:#1F2D3D
