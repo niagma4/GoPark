@@ -1,0 +1,55 @@
+// GoPark — Esquema de datos
+// Sprint 1: usuarios con rol (HU-01) y turnos de caja (HU-02).
+// Los valores monetarios se guardan en pesos colombianos (COP) como enteros.
+
+generator client {
+  provider   = "prisma-client-js"
+  // Cliente sin motor Rust: usa el adaptador @prisma/adapter-pg (ver src/prisma/prisma.service.ts)
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  OPERATOR
+}
+
+enum ShiftStatus {
+  OPEN
+  CLOSED
+}
+
+model User {
+  id           String      @id @default(uuid())
+  name         String
+  email        String      @unique
+  passwordHash String
+  role         Role        @default(OPERATOR)
+  active       Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  shifts       CashShift[]
+}
+
+model CashShift {
+  id             String      @id @default(uuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  status         ShiftStatus @default(OPEN)
+  openingAmount  Int
+  // Efectivo recaudado durante el turno. Lo incrementa el check-out (HU-04, Sprint 2).
+  cashCollected  Int         @default(0)
+  expectedAmount Int?
+  declaredAmount Int?
+  difference     Int?
+  notes          String?
+  openedAt       DateTime    @default(now())
+  closedAt       DateTime?
+
+  @@index([userId, status])
+  @@index([openedAt])
+}

@@ -1,0 +1,17 @@
+flowchart TB
+  admin["<b>Administrador</b><br/><i>[Persona]</i><br/>Dueño o gerente del parqueadero.<br/>Configura tarifas y aforo,<br/>audita caja y consulta métricas."]
+  oper["<b>Operador / Cajero</b><br/><i>[Persona]</i><br/>Registra entradas y salidas,<br/>cobra y abre/cierra turnos de caja."]
+  cli["<b>Cliente del parqueadero</b><br/><i>[Persona]</i><br/>Recibe el ticket QR al ingresar<br/>y lo presenta a la salida."]
+  gp["<b>GoPark</b><br/><i>[Sistema de software]</i><br/>Plataforma web para el control vehicular:<br/>check-in/check-out con QR, motor de tarifas,<br/>turnos de caja, aforo y dashboard."]
+  mail["<b>Navegador / cámara web</b><br/><i>[Sistema externo]</i><br/>Lee el código QR del ticket<br/>desde el puesto de caja."]
+  admin -- "Configura tarifas y aforo,<br/>consulta métricas [HTTPS]" --> gp
+  oper -- "Registra entradas/salidas<br/>y cobros [HTTPS]" --> gp
+  gp -- "Emite ticket QR<br/>(impreso o digital)" --> cli
+  cli -. "Presenta ticket QR" .-> oper
+  gp -- "Solicita acceso a la cámara<br/>y decodifica QR" --> mail
+  classDef person fill:#08427B,color:#ffffff,stroke:#052E56
+  classDef sys fill:#1168BD,color:#ffffff,stroke:#0B4884
+  classDef ext fill:#999999,color:#ffffff,stroke:#6B6B6B
+  class admin,oper,cli person
+  class gp sys
+  class mail ext
